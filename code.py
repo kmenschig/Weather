@@ -24,7 +24,9 @@ if r.status_code == 200:
     lt = data["current_observation"]["local_time_rfc822"]
 #    dspL = data["current_observation"]["display_location"]
     
-# this has to be optimized
+
+    # Let's optimize this routine
+
     with open('log.txt', 'a') as infile:
         infile.write(obsL + "   " + lt + "   " + dewF + "   " + dewC + "   " + relH + "   " + prsI + "   " + tmpF)
         infile.write("   " + tmpC)
