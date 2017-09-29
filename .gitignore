@@ -5,7 +5,7 @@
 *.DS_Store
 
 # Ignores log file
-log.txt
+/log.txt
 
 # All python compiled files
 *.pyc
