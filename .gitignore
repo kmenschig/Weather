@@ -6,3 +6,6 @@
 
 # Ignores log file
 log.txt
+
+# All python compiled files
+*.pyc
