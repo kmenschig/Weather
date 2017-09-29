@@ -3,9 +3,8 @@ import requests
 import os
 # from mapping import vapor_pressure as vp
 
+# Should use os.environ() to read environment variables to avoid exposing API keys to the public
 BASE_URL = 'http://api.wunderground.com/api/403665e38bc0904f/geolookup/conditions/forecast/q/Germany/Cologne.json'
-
-r = requests.get(BASE_URL)
 
 
 def writeToLog(row):
@@ -17,6 +16,8 @@ def writeToLog(row):
     with open(cwd + "/log.txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
+
+r = requests.get(BASE_URL)
 
 if r.status_code == 200:
     data = r.json()
