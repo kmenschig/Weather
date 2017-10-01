@@ -80,3 +80,13 @@ if r.status_code == 200:
 
 else:
     print "No response returned"
+
+# TO PUSH TO GITHUB
+# 1.) `git status` (to check what's up)
+# 2.) `git add <filename> or .` (for everything)
+# 3.) `git commit -m "<your commit message>"`
+# 4.) `git push`
+
+# TO UPDATE FROM REPO
+# 1.) `git status`
+# 2.) `git pull`
