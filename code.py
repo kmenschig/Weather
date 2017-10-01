@@ -1,11 +1,28 @@
 #!/home/klaus/Documents/Projects/Cologne-Weather/env/bin/ python
 import requests
 import os
+import argparse
+
+API_KEY = os.environ['WUNDERGROUND_KEY']
+
+
 # from mapping import vapor_pressure as vp
 
 # Should use os.environ() to read environment variables to avoid exposing API keys to the public
-BASE_URL = 'http://api.wunderground.com/api/403665e38bc0904f/geolookup/conditions/forecast/q/Germany/Cologne.json'
+BASE_URL = 'http://api.wunderground.com/api/403665e38bc0904f'
 
+BASE_URL = 'http://api.wunderground.com/api/' + API_KEY + '/geolookup/conditions/forecast/q/Germany/Cologne.json'
+
+cities = [
+    {
+        'Country': 'Colombia',
+        'stations': ['IMANIZAL5']
+    },
+    {
+        'Country': 'Germany',
+        'stations': ['stationID']
+    }
+]
 
 def writeToLog(row):
     """
