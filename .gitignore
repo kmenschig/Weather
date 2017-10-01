@@ -1,0 +1,11 @@
+# Virtual environment
+/env
+
+# macOS
+*.DS_Store
+
+# Ignores log file
+/log.txt
+
+# All python compiled files
+*.pyc
