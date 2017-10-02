@@ -3,16 +3,16 @@ import requests
 import os
 import argparse
 
-API_KEY = os.environ['WUNDERGROUND_KEY']
+#API_KEY = os.environ['WUNDERGROUND_KEY']
 
 # from mapping import vapor_pressure as vp
 
 # Should use os.environ() to read environment variables to avoid exposing API keys to the public
 #BASE_URL = 'http://api.wunderground.com/api/403665e38bc0904f'
 #BASE_URL = 'http://api.wunderground.com/api/' + API_KEY + '/geolookup/conditions/forecast/q/Germany/Cologne.json'
-#BASE_URL='http://api.wunderground.com/api/fd8fdafd3215d0f6/conditions/q/co/pws:imanizal5.json'
+BASE_URL='http://api.wunderground.com/api/fd8fdafd3215d0f6/conditions/q/co/pws:imanizal5.json'
 
-BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
+#BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
 
 #cities = [
 #    {
@@ -31,6 +31,7 @@ def writeToLog(row):
     @param row {list} - the row to be written
     """
     cwd = os.getcwd()
+
     with open(cwd + "/log.txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
@@ -68,13 +69,13 @@ if r.status_code == 200:
 
 #conversion of dewF in dewC for more digits
     tmp = ((float(dewF) - 32) * 5 / 9)
-    
+
 #calculations of vapor pressure dependent on temperature of dew point
     vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
     vapdwp='{:6}'.format(vapdwp)
 
 
-    relH='{:>4}'.format(relH)
+#    relH='{:>4}'.format(relH)
 
     row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
 
