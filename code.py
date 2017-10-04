@@ -2,28 +2,20 @@
 import requests
 import os
 import argparse
+from mapping import vapor_pressure as vp
+from mapping import cities
 
-#API_KEY = os.environ['WUNDERGROUND_KEY']
+API_KEY = os.environ['WUNDERGROUND_KEY']
 
-# from mapping import vapor_pressure as vp
 
 # Should use os.environ() to read environment variables to avoid exposing API keys to the public
 #BASE_URL = 'http://api.wunderground.com/api/403665e38bc0904f'
 #BASE_URL = 'http://api.wunderground.com/api/' + API_KEY + '/geolookup/conditions/forecast/q/Germany/Cologne.json'
-BASE_URL='http://api.wunderground.com/api/fd8fdafd3215d0f6/conditions/q/co/pws:imanizal5.json'
+#BASE_URL='http://api.wunderground.com/api/fd8fdafd3215d0f6/conditions/q/co/pws:imanizal5.json'
 
-#BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
+BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
 
-#cities = [
-#    {
-#        'Country': 'Colombia',
-#        'stations': ['IMANIZAL5']
-#    },
-#    {
-#        'Country': 'Germany',
-#        'stations': ['stationID']
-#    }
-#]
+
 
 def writeToLog(row):
     """
@@ -32,7 +24,7 @@ def writeToLog(row):
     """
     cwd = os.getcwd()
 
-    with open(cwd + "/log.txt", "a") as outfile:
+    with open("/home/klaus/Documents/Projects/cologneWeather/log.txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
 r = requests.get(BASE_URL)
@@ -65,14 +57,14 @@ if r.status_code == 200:
 
 #calculations of vapor pressure dependent on temperature
     vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-    vapprs='{:6}'.format(vapprs)
+#    vapprs='{:6}'.format(vapprs)
 
 #conversion of dewF in dewC for more digits
     tmp = ((float(dewF) - 32) * 5 / 9)
 
 #calculations of vapor pressure dependent on temperature of dew point
     vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-    vapdwp='{:6}'.format(vapdwp)
+#    vapdwp='{:6}'.format(vapdwp)
 
 
 #    relH='{:>4}'.format(relH)
@@ -83,13 +75,3 @@ if r.status_code == 200:
 
 else:
     print "No response returned"
-
-# TO PUSH TO GITHUB
-# 1.) `git status` (to check what's up)
-# 2.) `git add <filename> or .` (for everything)
-# 3.) `git commit -m "<your commit message>"`
-# 4.) `git push`
-
-# TO UPDATE FROM REPO
-# 1.) `git status`
-# 2.) `git pull`

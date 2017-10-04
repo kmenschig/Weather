@@ -7,3 +7,15 @@ vapor_pressure = {
     "a5": 2.034080948E-08,
     "a6": 6.136820929E-11
 }
+
+
+cities = [
+   {
+       'Country': 'Colombia',
+       'stations': ['IMANIZAL5']
+   },
+   {
+       'Country': 'Germany',
+       'stations': ['stationID']
+   }
+]
