@@ -4,8 +4,8 @@
 # macOS
 *.DS_Store
 
-# Ignores log file
-/log.txt
+# Ignores all text files
+*.txt
 
 # All python compiled files
 *.pyc

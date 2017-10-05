@@ -16,6 +16,6 @@ cities = [
    },
    {
        'Country': 'Germany',
-       'stations': ['stationID']
+       'stations': ['IKNMESCH2']
    }
 ]

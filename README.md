@@ -1,5 +1,5 @@
-# cologneWeather
-Weather Data from Cologne, Germany
+# Weather
+Weather Data retrieved from Wunderground.
 
 # Dependencies
 Install dependencies via `pip install -r requirements.txt`

@@ -1,4 +1,5 @@
 #!/home/klaus/Documents/Projects/Cologne-Weather/env/bin/ python
+import datetime
 import requests
 import os
 import argparse
@@ -6,26 +7,29 @@ from mapping import vapor_pressure as vp
 from mapping import cities
 
 API_KEY = os.environ['WUNDERGROUND_KEY']
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+cwd=os.getcwd()
 
 
-# Should use os.environ() to read environment variables to avoid exposing API keys to the public
-#BASE_URL = 'http://api.wunderground.com/api/403665e38bc0904f'
-#BASE_URL = 'http://api.wunderground.com/api/' + API_KEY + '/geolookup/conditions/forecast/q/Germany/Cologne.json'
-#BASE_URL='http://api.wunderground.com/api/fd8fdafd3215d0f6/conditions/q/co/pws:imanizal5.json'
-
+#1nordr
 BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
-
-
 
 def writeToLog(row):
     """
     Writes a single row into the specified log file
     @param row {list} - the row to be written
     """
-    cwd = os.getcwd()
 
-    with open("/home/klaus/Documents/Projects/cologneWeather/log.txt", "a") as outfile:
+    with open(cwd + "/log.txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
+
+def calculate_vapor_pressure_temp():
+    pass
+
+def calculate_vapor_pressure_dew_point():
+    pass
+
 
 r = requests.get(BASE_URL)
 
