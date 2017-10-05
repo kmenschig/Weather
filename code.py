@@ -6,13 +6,14 @@ import argparse
 from mapping import vapor_pressure as vp
 from mapping import cities
 
+# Configuration
 API_KEY = os.environ['WUNDERGROUND_KEY']
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 cwd=os.getcwd()
 
 
-#1nordr
+
 BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
 
 def writeToLog(row):
