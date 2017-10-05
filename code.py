@@ -13,7 +13,6 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 cwd=os.getcwd()
 
 
-
 BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
 
 def writeToLog(row):
@@ -25,10 +24,16 @@ def writeToLog(row):
     with open(cwd + "/log.txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
+
 def calculate_vapor_pressure_temp():
     pass
 
+
 def calculate_vapor_pressure_dew_point():
+    pass
+
+
+def get_weather_data(pws):
     pass
 
 
@@ -57,26 +62,28 @@ if r.status_code == 200:
     a5 = 2.034080948E-08
     a6 = 6.136820929E-11
 
-#conversion of temp_f in temp_c for more digits
+    #conversion of temp_f in temp_c for more digits
     tmp = ((float(tmpF) - 32) * 5 / 9)
 
-#calculations of vapor pressure dependent on temperature
+    #calculations of vapor pressure dependent on temperature
     vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-#    vapprs='{:6}'.format(vapprs)
+    # vapprs='{:6}'.format(vapprs)
 
-#conversion of dewF in dewC for more digits
+    #conversion of dewF in dewC for more digits
     tmp = ((float(dewF) - 32) * 5 / 9)
 
-#calculations of vapor pressure dependent on temperature of dew point
+    #calculations of vapor pressure dependent on temperature of dew point
     vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-#    vapdwp='{:6}'.format(vapdwp)
+    # vapdwp='{:6}'.format(vapdwp)
 
 
-#    relH='{:>4}'.format(relH)
+    # relH='{:>4}'.format(relH)
 
     row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
-
     writeToLog(row)
 
 else:
+    # Actually, we are most likely receiving a response, 
+    # only that the HTTP status code will not be 200
+    # and most likely be an error
     print "No response returned"
