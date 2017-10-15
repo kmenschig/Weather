@@ -10,7 +10,6 @@ API_KEY = os.environ['WUNDERGROUND_KEY']
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 cwd=os.getcwd()
-
 cities = ['co','IMANIZAL5','dl','IKNMESCH2','br','ISTATEOF5']
 
 for i in xrange(0,len(cities)-1,2):
