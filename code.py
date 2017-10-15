@@ -13,6 +13,9 @@ def writeToLog(row, station_id):
     @param row {list} - the row to be written
     @param station_id {string} - the private weather station id
     """
+
+    # TODO: check if /data exists, create if not
+
     with open(cwd + "/data/" + station_id + ".txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
@@ -37,12 +40,12 @@ for i in range(0, len(config.stations)):
 
 
         # Variable declaration
-        dewF = str(response["dewpoint_f"])
-        dewC = str(response["dewpoint_c"])
+        dewF = str("{0:.1f}".format(response["dewpoint_f"]))
+        dewC = str("{0:.1f}".format(response["dewpoint_c"]))
         relH = str(response["relative_humidity"])
         prsI = str(response["pressure_in"])
-        tmpF = str(response["temp_f"])
-        tmpC = str(response["temp_c"])
+        tmpF = str("{0:.1f}".format(response["temp_f"]))
+        tmpC = str("{0:.1f}".format(response["temp_c"]))
         obsL = str(response["display_location"]["city"])
         lt = str(response["observation_time_rfc822"])
 
