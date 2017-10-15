@@ -10,10 +10,13 @@ API_KEY = os.environ['WUNDERGROUND_KEY']
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 cwd=os.getcwd()
-cities = ['IMANIZAL5','IKNMESCH2']
-for city in cities:
+
+cities = ['co','IMANIZAL5','dl','IKNMESCH2','br','ISTATEOF5']
+
+for i in xrange(0,len(cities)-1,2):
+
     #1nordr
-    BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:' + city + '.json'
+    BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/' + cities[i] + '/pws:' + cities[i+1] + '.json'
 
     def writeToLog(row):
         """
@@ -21,7 +24,7 @@ for city in cities:
         @param row {list} - the row to be written
         """
 
-        with open(cwd + "/log" + city + ".txt", "a") as outfile:
+        with open(cwd + "/log" + cities[i+1] + ".txt", "a") as outfile:
             outfile.write('\t'.join(row) + '\n')
 
     def calculate_vapor_pressure_temp():
