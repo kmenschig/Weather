@@ -59,22 +59,22 @@ for i in range(0, len(config.stations)):
         a5 = 2.034080948E-08
         a6 = 6.136820929E-11
 
-    # conversion of temp_f in temp_c for more digits
+        # conversion of temp_f in temp_c for more digits
         tmp = ((float(tmpF) - 32) * 5 / 9)
 
-    # calculations of vapor pressure dependent on temperature
+        # calculations of vapor pressure dependent on temperature
         vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
         # vapprs='{:6}'.format(vapprs)
 
-    # conversion of dewF in dewC for more digits
+        # conversion of dewF in dewC for more digits
         tmp = ((float(dewF) - 32) * 5 / 9)
 
-    # calculations of vapor pressure dependent on temperature of dew point
+        # calculations of vapor pressure dependent on temperature of dew point
         vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
         # vapdwp='{:6}'.format(vapdwp)
 
 
-    # relH='{:>4}'.format(relH)
+        # relH='{:>4}'.format(relH)
 
         row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
         writeToLog(row, station_id)
