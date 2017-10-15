@@ -1,36 +1,39 @@
 #!/home/klaus/Documents/Projects/Cologne-Weather/env/bin/ python
+import os
 import datetime
 import requests
-import os
 import argparse
-from mapping import vapor_pressure as vp
-from mapping import cities
+import config
+from config import cwd
+from config import stations
 
-API_KEY = os.environ['WUNDERGROUND_KEY']
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+# cities = ['co','IMANIZAL5','dl','IKNMESCH2','br','ISTATEOF5']
 
-cwd=os.getcwd()
-cities = ['co','IMANIZAL5','dl','IKNMESCH2','br','ISTATEOF5']
 
-for i in xrange(0,len(cities)-1,2):
+for i in range(0, len(config.stations)):
+    stations = config.stations[i]["station_id"]
 
-    #1nordr
-    BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/' + cities[i] + '/pws:' + cities[i+1] + '.json'
 
-    def writeToLog(row):
-        """
-        Writes a single row into the specified log file
-        @param row {list} - the row to be written
-        """
+def writeToLog(row, station_id):
+    """
+    Writes a single row into the specified log file
+    @param row {list} - the row to be written
+    @param station_id {string} - the private weather station id
+    """
 
-        with open(cwd + "/log" + cities[i+1] + ".txt", "a") as outfile:
-            outfile.write('\t'.join(row) + '\n')
+    with open(cwd + "/data/" + station_id + ".txt", "a") as outfile:
+        outfile.write('\t'.join(row) + '\n')
 
-    def calculate_vapor_pressure_temp():
-        pass
 
-    def calculate_vapor_pressure_dew_point():
-        pass
+for i in range(0, len(config.stations)):
+    station_id = config.stations[i]["station_id"]
+    station_country = config.stations[i]["country_short"]
+
+    BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
+        .format(config.API_KEY, station_country, station_id)
+    
+    print "GET Request: " + BASE_URL
+
 
 
     r = requests.get(BASE_URL)
@@ -49,7 +52,6 @@ for i in xrange(0,len(cities)-1,2):
         lt = str(response["local_time_rfc822"])
 
         # Calculation of vapor pressure at given temperature
-        # @mmenschig - I don't know what you're doing here, maybe create a dictionary?
         a0 = 6.107799961
         a1 = 4.436518521E-01
         a2 = 1.428945805E-02
@@ -58,26 +60,25 @@ for i in xrange(0,len(cities)-1,2):
         a5 = 2.034080948E-08
         a6 = 6.136820929E-11
 
-    #conversion of temp_f in temp_c for more digits
+    # conversion of temp_f in temp_c for more digits
         tmp = ((float(tmpF) - 32) * 5 / 9)
 
-    #calculations of vapor pressure dependent on temperature
+    # calculations of vapor pressure dependent on temperature
         vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-    #    vapprs='{:6}'.format(vapprs)
+        # vapprs='{:6}'.format(vapprs)
 
-    #conversion of dewF in dewC for more digits
+    # conversion of dewF in dewC for more digits
         tmp = ((float(dewF) - 32) * 5 / 9)
 
-    #calculations of vapor pressure dependent on temperature of dew point
+    # calculations of vapor pressure dependent on temperature of dew point
         vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-    #    vapdwp='{:6}'.format(vapdwp)
+        # vapdwp='{:6}'.format(vapdwp)
 
 
-    #    relH='{:>4}'.format(relH)
+    # relH='{:>4}'.format(relH)
 
         row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
-
-        writeToLog(row)
+        writeToLog(row, station_id)
 
     else:
         print "No response returned"
