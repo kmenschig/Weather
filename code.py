@@ -5,13 +5,6 @@ import requests
 import argparse
 import config
 from config import cwd
-from config import stations
-
-# cities = ['co','IMANIZAL5','dl','IKNMESCH2','br','ISTATEOF5']
-
-
-for i in range(0, len(config.stations)):
-    stations = config.stations[i]["station_id"]
 
 
 def writeToLog(row, station_id):
@@ -20,9 +13,11 @@ def writeToLog(row, station_id):
     @param row {list} - the row to be written
     @param station_id {string} - the private weather station id
     """
-
     with open(cwd + "/data/" + station_id + ".txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
+
+def date_to_ISO(date):
+    pass
 
 
 for i in range(0, len(config.stations)):
@@ -31,16 +26,16 @@ for i in range(0, len(config.stations)):
 
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
-    
+
     print "GET Request: " + BASE_URL
-
-
 
     r = requests.get(BASE_URL)
 
     if r.status_code == 200:
         data = r.json()
         response = data["current_observation"]
+
+
         # Variable declaration
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
@@ -49,7 +44,8 @@ for i in range(0, len(config.stations)):
         tmpF = str(response["temp_f"])
         tmpC = str(response["temp_c"])
         obsL = str(response["display_location"]["city"])
-        lt = str(response["local_time_rfc822"])
+        lt = str(response["observation_time_rfc822"])
+
 
         # Calculation of vapor pressure at given temperature
         a0 = 6.107799961

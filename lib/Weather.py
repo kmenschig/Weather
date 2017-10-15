@@ -5,7 +5,7 @@ class Weather:
         pass
 
     def calculate_vapor_pressure_temp():
-        print "This runs!"
+        pass
 
     def calculate_vapor_pressure_dew_point():
         pass
