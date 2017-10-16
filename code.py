@@ -5,6 +5,7 @@ import requests
 import argparse
 import config
 from config import cwd
+from dateutil import parser
 
 
 def writeToLog(row, station_id):
@@ -20,7 +21,13 @@ def writeToLog(row, station_id):
         outfile.write('\t'.join(row) + '\n')
 
 def date_to_ISO(date):
-    pass
+    """ 
+    Returns an ISO datetime object from an 
+    RFC822 formatted datetime string. Returned 
+    object has no UTC offset information.
+    @param {string} the rfc822 string 
+    """
+    return parser.parse(date).replace(tzinfo=None)
 
 
 for i in range(0, len(config.stations)):
@@ -47,7 +54,7 @@ for i in range(0, len(config.stations)):
         tmpF = str("{0:.1f}".format(response["temp_f"]))
         tmpC = str("{0:.1f}".format(response["temp_c"]))
         obsL = str(response["display_location"]["city"])
-        lt = str(response["observation_time_rfc822"])
+        lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
 
         # Calculation of vapor pressure at given temperature
