@@ -21,11 +21,11 @@ def writeToLog(row, station_id):
         outfile.write('\t'.join(row) + '\n')
 
 def date_to_ISO(date):
-    """ 
-    Returns an ISO datetime object from an 
-    RFC822 formatted datetime string. Returned 
+    """
+    Returns an ISO datetime object from an
+    RFC822 formatted datetime string. Returned
     object has no UTC offset information.
-    @param {string} the rfc822 string 
+    @param {string} the rfc822 string
     """
     return parser.parse(date).replace(tzinfo=None)
 
@@ -47,12 +47,14 @@ for i in range(0, len(config.stations)):
 
 
         # Variable declaration
-        dewF = str("{0:.1f}".format(response["dewpoint_f"]))
-        dewC = str("{0:.1f}".format(response["dewpoint_c"]))
+        # tmpC = str("{0:.1f}".format(response["temp_c"])) with format example
+
+        dewF = str(response["dewpoint_f"])
+        dewC = str(response["dewpoint_c"])
         relH = str(response["relative_humidity"])
         prsI = str(response["pressure_in"])
-        tmpF = str("{0:.1f}".format(response["temp_f"]))
-        tmpC = str("{0:.1f}".format(response["temp_c"]))
+        tmpF = str(response["temp_f"])
+        tmpC = str(response["temp_c"])
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 

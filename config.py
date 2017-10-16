@@ -19,6 +19,11 @@ vapor_pressure = {
 
 stations = [
     {
+        "country": "Brazil",
+        "country_short": "br",
+        "station_id": "ISTATEOF5"
+    },
+    {
         "country": "Colombia",
         "country_short": "co",
         "station_id": "IMANIZAL5"
@@ -26,11 +31,36 @@ stations = [
     {
         "country": "Germany",
         "country_short": "dl",
-        "station_id": "IKNMESCH2"
+        "station_id": "INORDRHE191"
     },
     {
-        "country": "Brazil",
-        "country_short": "br",
-        "station_id": "ISTATEOF5"
+        "country": "Germany",
+        "country_short": "dl",
+        "station_id": "IWESSELI16"
+    },
+    {
+        "country": "Great Britain",
+        "country_short": "gb",
+        "station_id": "IDUKINFI2"
+    },
+    {
+        "country": "Mexico",
+        "country_short": "mx",
+        "station_id": "ITULTITL2"
+    },
+    {
+        "country": "Mexico",
+        "country_short": "mx",
+        "station_id": "IESTADOD2"
+    },
+    {
+        "country": "Mexico",
+        "country_short": "mx",
+        "station_id": "ICIUDADD170"
+    },
+    {
+        "country": "Philippines",
+        "country_short": "ph",
+        "station_id": "ICALABAR26"
     }
 ]
