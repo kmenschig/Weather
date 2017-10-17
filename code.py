@@ -1,89 +1,92 @@
 #!/home/klaus/Documents/Projects/Cologne-Weather/env/bin/ python
+import os
 import datetime
 import requests
-import os
 import argparse
-from mapping import vapor_pressure as vp
-from mapping import cities
+import config
+from config import cwd
+from dateutil import parser
 
-# Configuration
-API_KEY = os.environ['WUNDERGROUND_KEY']
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-cwd=os.getcwd()
-
-
-BASE_URL='http://api.wunderground.com/api/' + API_KEY + '/conditions/q/co/pws:imanizal5.json'
 
 def writeToLog(row):
     """
     Writes a single row into the specified log file
     @param row {list} - the row to be written
+    @param station_id {string} - the private weather station id
     """
 
-    with open(cwd + "/log.txt", "a") as outfile:
+    # TODO: check if /data exists, create if not
+
+    with open(cwd + "/data/" + station_country + "_" + station_id + ".txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
-
-def calculate_vapor_pressure_temp():
-    pass
-
-
-def calculate_vapor_pressure_dew_point():
-    pass
-
-
-def get_weather_data(pws):
-    pass
+def date_to_ISO(date):
+    """
+    Returns an ISO datetime object from an
+    RFC822 formatted datetime string. Returned
+    object has no UTC offset information.
+    @param {string} the rfc822 string
+    """
+    return parser.parse(date).replace(tzinfo=None)
 
 
-r = requests.get(BASE_URL)
+for i in range(0, len(config.stations)):
+    station_id = config.stations[i]["station_id"]
+    station_country = config.stations[i]["country_short"]
 
-if r.status_code == 200:
-    data = r.json()
-    response = data["current_observation"]
-    # Variable declaration
-    dewF = str(response["dewpoint_f"])
-    dewC = str(response["dewpoint_c"])
-    relH = str(response["relative_humidity"])
-    prsI = str(response["pressure_in"])
-    tmpF = str(response["temp_f"])
-    tmpC = str(response["temp_c"])
-    obsL = str(response["display_location"]["city"])
-    lt = str(response["local_time_rfc822"])
+    BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
+        .format(config.API_KEY, station_country, station_id)
 
-    # Calculation of vapor pressure at given temperature
-    # @mmenschig - I don't know what you're doing here, maybe create a dictionary?
-    a0 = 6.107799961
-    a1 = 4.436518521E-01
-    a2 = 1.428945805E-02
-    a3 = 2.650648471E-04
-    a4 = 3.031240396E-06
-    a5 = 2.034080948E-08
-    a6 = 6.136820929E-11
+    print "GET Request: " + BASE_URL
 
-    #conversion of temp_f in temp_c for more digits
-    tmp = ((float(tmpF) - 32) * 5 / 9)
+    r = requests.get(BASE_URL)
 
-    #calculations of vapor pressure dependent on temperature
-    vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-    # vapprs='{:6}'.format(vapprs)
-
-    #conversion of dewF in dewC for more digits
-    tmp = ((float(dewF) - 32) * 5 / 9)
-
-    #calculations of vapor pressure dependent on temperature of dew point
-    vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
-    # vapdwp='{:6}'.format(vapdwp)
+    if r.status_code == 200:
+        data = r.json()
+        response = data["current_observation"]
 
 
-    # relH='{:>4}'.format(relH)
+        # Variable declaration
+        # tmpC = str("{0:.1f}".format(response["temp_c"])) with format example
 
-    row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
-    writeToLog(row)
+        dewF = str(response["dewpoint_f"])
+        dewC = str(response["dewpoint_c"])
+        relH = str(response["relative_humidity"])
+        prsI = str(response["pressure_in"])
+        tmpF = str(response["temp_f"])
+        tmpC = str(response["temp_c"])
+        obsL = str(response["display_location"]["city"])
+        lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
-else:
-    # Actually, we are most likely receiving a response, 
-    # only that the HTTP status code will not be 200
-    # and most likely be an error
-    print "No response returned"
+
+        # Calculation of vapor pressure at given temperature
+        a0 = 6.107799961
+        a1 = 4.436518521E-01
+        a2 = 1.428945805E-02
+        a3 = 2.650648471E-04
+        a4 = 3.031240396E-06
+        a5 = 2.034080948E-08
+        a6 = 6.136820929E-11
+
+        # conversion of temp_f in temp_c for more digits
+        tmp = ((float(tmpF) - 32) * 5 / 9)
+
+        # calculations of vapor pressure dependent on temperature
+        vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
+        # vapprs='{:6}'.format(vapprs)
+
+        # conversion of dewF in dewC for more digits
+        tmp = ((float(dewF) - 32) * 5 / 9)
+
+        # calculations of vapor pressure dependent on temperature of dew point
+        vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
+        # vapdwp='{:6}'.format(vapdwp)
+
+
+        # relH='{:>4}'.format(relH)
+
+        row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
+        writeToLog(row)
+
+    else:
+        print "No response returned"
