@@ -14,11 +14,9 @@ def writeToLog(row):
     @param row {list} - the row to be written
     @param station_id {string} - the private weather station id
     """
-
-    # TODO: check if /data exists, create if not
-
     with open(cwd + "/data/" + station_country + "_" + station_id + ".txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
+
 
 def date_to_ISO(date):
     """
@@ -29,6 +27,30 @@ def date_to_ISO(date):
     """
     return parser.parse(date).replace(tzinfo=None)
 
+
+def check_data_directory():
+    """
+    Checks if the 'data' directory exists
+    which is used to store collected data in 
+    log files. 
+    No parameters
+    """
+    if not os.path.isdir(cwd + '/data'):
+
+        print "Data directory does not exist. Creating one.."
+        os.mkdir(cwd + '/data')
+        print "Created directory!"
+
+
+def is_valid_response(res):
+    """
+    Checks if data returned from API is valid 
+    @param {dict} the response object from Wunderground
+    """
+    pass
+
+# Do this once, at start
+check_data_directory()
 
 for i in range(0, len(config.stations)):
     station_id = config.stations[i]["station_id"]
@@ -45,9 +67,6 @@ for i in range(0, len(config.stations)):
         data = r.json()
         response = data["current_observation"]
 
-
-        # Variable declaration
-        # tmpC = str("{0:.1f}".format(response["temp_c"])) with format example
 
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
