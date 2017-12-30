@@ -17,7 +17,6 @@ def writeToLog(row):
     with open(cwd + "/data/" + station_country + "_" + station_id + ".txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
-
 def date_to_ISO(date):
     """
     Returns an ISO datetime object from an
@@ -26,7 +25,6 @@ def date_to_ISO(date):
     @param {string} the rfc822 string
     """
     return parser.parse(date).replace(tzinfo=None)
-
 
 def check_data_directory():
     """
@@ -41,13 +39,15 @@ def check_data_directory():
         os.mkdir(cwd + '/data')
         print "Created directory!"
 
+def is_valid_data(dewF):
+    """
+    Checks if data returned from API is valid by doing 
+    a very naive check to see if dewpoint temperature
+    is not equal to -9999.
+    @param {dewF} the response object from Wunderground
+    """
+    return not dewF == -9999
 
-def is_valid_response(res):
-    """
-    Checks if data returned from API is valid 
-    @param {dict} the response object from Wunderground
-    """
-    pass
 
 # Do this once, at start
 check_data_directory()
@@ -64,6 +64,7 @@ for i in range(0, len(config.stations)):
     r = requests.get(BASE_URL)
 
     if r.status_code == 200:
+
         data = r.json()
         response = data["current_observation"]
 
@@ -77,6 +78,9 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
+        #Checking if metrics are valid
+        if not is_valid_data(dewF):
+            continue
 
         # Calculation of vapor pressure at given temperature
         a0 = 6.107799961
@@ -100,7 +104,6 @@ for i in range(0, len(config.stations)):
         # calculations of vapor pressure dependent on temperature of dew point
         vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
         # vapdwp='{:6}'.format(vapdwp)
-
 
         # relH='{:>4}'.format(relH)
 
