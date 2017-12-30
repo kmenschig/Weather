@@ -85,7 +85,7 @@ for i in range(0, len(config.stations)):
 
         # relH='{:>4}'.format(relH)
 
-        row = [obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
+        row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
         writeToLog(row)
 
     else:
