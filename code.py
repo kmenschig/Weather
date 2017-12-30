@@ -1,4 +1,4 @@
-#!/home/klaus/Documents/Projects/Cologne-Weather/env/bin/ python
+#!/home/klaus/Documents/Projects/Weather/env/bin/ python
 import os
 import datetime
 import requests
