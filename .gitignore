@@ -9,3 +9,6 @@
 
 # All python compiled files
 *.pyc
+
+# Collected data
+/data
