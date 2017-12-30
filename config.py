@@ -46,7 +46,7 @@ stations = [
     {
         "country": "Great Britain",
         "country_short": "gb",
-        "station_id": "IDUKINFI2"
+        "station_id": "ISTALYBR4"
     },
     {
         "country": "Mexico",
