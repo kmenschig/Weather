@@ -39,14 +39,14 @@ def check_data_directory():
         os.mkdir(cwd + '/data')
         print "Created directory!"
 
-def is_valid_data(dewF):
+def is_valid_data(relH):
     """
     Checks if data returned from API is valid by doing
     a very naive check to see if dewpoint temperature
     is not equal to -9999.
-    @param {dewF} the response object from Wunderground
+    @param {relH} the response object from Wunderground
     """
-    return not dewF == -9999.0
+    return not relH == "-999%"
 
 
 # Do this once, at start
@@ -79,7 +79,7 @@ for i in range(0, len(config.stations)):
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
         #Checking if metrics are valid
-        if not is_valid_data(dewF):
+        if not is_valid_data(relH):
             continue
 
         # Calculation of vapor pressure at given temperature
