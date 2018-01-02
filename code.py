@@ -82,7 +82,7 @@ for i in range(0, len(config.stations)):
         if not is_valid_data(dewF):
             continue
 
-        # Calculation of vapor pressure at given temperature
+        # Calculation of vapor pressure at given temperature in [mbar]
         a0 = 6.107799961
         a1 = 4.436518521E-01
         a2 = 1.428945805E-02
@@ -94,14 +94,14 @@ for i in range(0, len(config.stations)):
         # conversion of temp_f in temp_c for more digits
         tmp = ((float(tmpF) - 32) * 5 / 9)
 
-        # calculations of vapor pressure dependent on temperature
+        # calculations of vapor pressure in [mbar] dependent on temperature
         vapprs = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
         # vapprs='{:6}'.format(vapprs)
 
         # conversion of dewF in dewC for more digits
         tmp = ((float(dewF) - 32) * 5 / 9)
 
-        # calculations of vapor pressure dependent on temperature of dew point
+        # calculations of vapor pressure in [mbar] dependent on temperature of dew point
         vapdwp = str(round(a0 + tmp * (a1 + tmp * (a2 + tmp * (a3 + tmp * (a4 + tmp * (a5 + tmp * a6))))),3))
         # vapdwp='{:6}'.format(vapdwp)
 
