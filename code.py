@@ -78,8 +78,26 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
+#        print len(obsL), len(lt)
+
         #Checking if metrics are valid
         if not is_valid_data(dewF):
+            continue
+
+        #read lines of file
+        fh=open(cwd + "/data/" + station_country + "_" + station_id + ".txt", "r")
+        ll=fh.readlines()
+        #close file
+        fh.close
+
+        #extract last line from ll
+        lastll=ll[len(ll)-1]
+
+        #extract date and time information from last line
+        dattim=lastll[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
+
+        #skip if date and time of new download are the same as in the last line
+        if lt==dattim:
             continue
 
         # Calculation of vapor pressure at given temperature in [mbar]
