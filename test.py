@@ -14,10 +14,10 @@ for line in fh:
     print "i=",i, line
     i=i+1
 
-ll=fh.readlines()
+#ll=fh.readlines()
         #close file
 fh.close
-
+os.system("rm -f temporary_file")
 #print ll
 
 #print txt
