@@ -130,7 +130,19 @@ for i in range(0, len(config.stations)):
 
         # relH='{:>4}'.format(relH)
 
-        row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp]
+
+        #calculation of grams water in 1 cu.m of air
+        #according to ideal gas law: pV=nRT
+
+        #calculation of total moles in 1 cu.m at the reported conditions
+        ntotal=float(prsI)*3386.3752577878*1/8.314/(273.15+float(tmpC))
+        xH2O=float(vapprs)*100/(float(prsI)*3386.3752577878)*float(vapdwp)/float(vapprs)
+        #number of moles of water in 1 cu.m air
+        nH2O=xH2O*ntotal
+        #mass of water in grams in 1 cu.m air
+        mH2O=str(nH2O*18)
+
+        row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O]
         writeToLog(row)
 
     else:
