@@ -59,7 +59,7 @@ for i in range(0, len(config.stations)):
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-    print "GET Request: " + BASE_URL
+#    print "GET Request: " + BASE_URL
 
     r = requests.get(BASE_URL)
 
@@ -84,21 +84,25 @@ for i in range(0, len(config.stations)):
         if not is_valid_data(dewF):
             continue
 
-        #read lines of file
-        fh=open(cwd + "/data/" + station_country + "_" + station_id + ".txt", "r")
-        ll=fh.readlines()
-        #close file
-        fh.close
 
-        #extract last line from ll
-        lastll=ll[len(ll)-1]
+
+        #read lines of file
+#        os.system("tail -n 1 " + cwd + "/data/" + station_country + "_" + station_id + ".txt > temporary_file")
+#        tf=open("temporary_file", "r")
+#        last_line=tf.readlines()
+        #close file
+#        tf.close
+
+        #extract last line from respective weather station file
 
         #extract date and time information from last line
-        dattim=lastll[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
-
+#        date_time=last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
+#        print last_line, date_time, len(obsL), len(lt)
         #skip if date and time of new download are the same as in the last line
-        if lt==dattim:
-            continue
+#        if lt==date_time:
+#            continue
+
+
 
         # Calculation of vapor pressure at given temperature in [mbar]
         a0 = 6.107799961
