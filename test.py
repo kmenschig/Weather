@@ -16,8 +16,14 @@ for line in fh:
 
 #ll=fh.readlines()
         #close file
+print line[3:20]
+
 fh.close
 os.system("rm -f temporary_file")
+
+print
+print
+
 #print ll
 
 #print txt

@@ -39,14 +39,14 @@ def check_data_directory():
         os.mkdir(cwd + '/data')
         print "Created directory!"
 
-def is_valid_data(dewF):
+def is_valid_data(relH):
     """
     Checks if data returned from API is valid by doing
     a very naive check to see if dewpoint temperature
     is not equal to -9999.
-    @param {dewF} the response object from Wunderground
+    @param {relH} the response object from Wunderground
     """
-    return not dewF == "-9999.0"
+    return not relH == "-999%"
 
 
 # Do this once, at start
@@ -68,7 +68,6 @@ for i in range(0, len(config.stations)):
         data = r.json()
         response = data["current_observation"]
 
-
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
         relH = str(response["relative_humidity"])
@@ -81,27 +80,29 @@ for i in range(0, len(config.stations)):
 #        print len(obsL), len(lt)
 
         #Checking if metrics are valid
-        if not is_valid_data(dewF):
+        if not is_valid_data(relH):
             continue
 
 
+        #block to check whether the weather station has not updated it's information since last Request
+        #new observation_time_rfc822 will be compared with the time in the last line of the respective file
+        #if times are the same, the program will move to the next weather station
 
-        #read lines of file
-#        os.system("tail -n 1 " + cwd + "/data/" + station_country + "_" + station_id + ".txt > temporary_file")
-#        tf=open("temporary_file", "r")
-#        last_line=tf.readlines()
-        #close file
-#        tf.close
+        os.system("tail -n 1 " + cwd + "/data/" + station_country + "_" + station_id + ".txt > temporary_file.txt")
+#        line_count=os.system("wc -l " + cwd + "/data/" + station_country + "_" + station_id + ".txt")
+        file_handle=open("temporary_file.txt", "r")
 
-        #extract last line from respective weather station file
+        for last_line in file_handle:
+            date_time=last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
+#            print station_id, line_count, last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)], dewF, dewC, relH, prsI,tmpF,tmpC,obsL,lt
+#            print
 
-        #extract date and time information from last line
-#        date_time=last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
-#        print last_line, date_time, len(obsL), len(lt)
-        #skip if date and time of new download are the same as in the last line
-#        if lt==date_time:
-#            continue
+        file_handle.close
 
+        os.system("rm -f temporary_file.txt")
+
+        if lt==date_time:
+            continue
 
 
         # Calculation of vapor pressure at given temperature in [mbar]
