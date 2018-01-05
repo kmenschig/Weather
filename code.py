@@ -136,13 +136,20 @@ for i in range(0, len(config.stations)):
 
         #calculation of total moles in 1 cu.m at the reported conditions
         ntotal=float(prsI)*3386.3752577878*1/8.314/(273.15+float(tmpC))
-        xH2O=float(vapprs)*100/(float(prsI)*3386.3752577878)*float(vapdwp)/float(vapprs)
+        xH2O=float(vapdwp)*100/(float(prsI)*3386.3752577878)
         #number of moles of water in 1 cu.m air
         nH2O=xH2O*ntotal
         #mass of water in grams in 1 cu.m air
-        mH2O=str(nH2O*18)
+        mH2O=nH2O*18
+        mH2O="{:2.2f}".format(mH2O)
+        mH2O=str(mH2O)
 
-        row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O]
+        #calculation of the respective air density`
+        rho=((float(prsI)*3386.3752577878-float(vapdwp)*100)*0.028964+float(vapdwp)*100*0.018016)/8.314/(273.15+float(tmpC))
+        rho="{:1.3f}".format(rho)
+        rho=str(rho)
+
+        row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O, rho]
         writeToLog(row)
 
     else:
