@@ -77,7 +77,10 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
-#        print len(obsL), len(lt)
+        print obsL, obsL.find(' ')
+
+        if obsL.find(' ')!=-1:
+            obsL=obsL.replace(' ','_')
 
         #Checking if metrics are valid
         if not is_valid_data(relH):
@@ -89,19 +92,17 @@ for i in range(0, len(config.stations)):
         #if times are the same, the program will move to the next weather station
 
         os.system("tail -n 1 " + cwd + "/data/" + station_country + "_" + station_id + ".txt > temporary_file.txt")
-#        line_count=os.system("wc -l " + cwd + "/data/" + station_country + "_" + station_id + ".txt")
+
         file_handle=open("temporary_file.txt", "r")
 
         for last_line in file_handle:
             date_time=last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
-#            print station_id, line_count, last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)], dewF, dewC, relH, prsI,tmpF,tmpC,obsL,lt
-#            print
 
         file_handle.close
 
         os.system("rm -f temporary_file.txt")
 
-        if lt==date_time:
+        if len(date_time)>0 and lt==date_time:
             continue
 
 
