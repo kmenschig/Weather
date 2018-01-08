@@ -79,6 +79,7 @@ for i in range(0, len(config.stations)):
 
         print obsL, obsL.find(' ')
 
+        #make obsL a string without a blank character
         if obsL.find(' ')!=-1:
             obsL=obsL.replace(' ','_')
 
@@ -102,9 +103,13 @@ for i in range(0, len(config.stations)):
 
         os.system("rm -f temporary_file.txt")
 
-        if len(date_time)>0 and lt==date_time:
-            continue
+        file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+        station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
+        #if file is empty and there is no date_time entry this command will not be executed
+        #and program will move to next weather station
+        if len(date_time)>0 and station_time<=file_time:
+            continue
 
         # Calculation of vapor pressure at given temperature in [mbar]
         a0 = 6.107799961
