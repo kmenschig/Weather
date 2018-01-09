@@ -17,6 +17,15 @@ def writeToLog(row):
     with open(cwd + "/data/" + station_country + "_" + station_id + ".txt", "a") as outfile:
         outfile.write('\t'.join(row) + '\n')
 
+def writeToLogFile(row):
+    """
+    Writes a single row into the specified log file
+    @param row {list} - the row to be written
+    @param station_id {string} - the private weather station id
+    """
+    with open(cwd + "/data/logfile.txt", 'w') as logOutfile:
+        logOutfile.write('\t'.join(row) + '\n')
+
 def date_to_ISO(date):
     """
     Returns an ISO datetime object from an
@@ -52,9 +61,8 @@ def is_valid_data(relH):
 # Do this once, at start
 check_data_directory()
 
-with open(cwd + "/data/logfile.txt", "a") as lf:
-    lf.write('\n' + "New Retrieval Cycle:" + '\n')
-lf.close
+row="New Retrieval Cycle:" + '\n'
+writeToLogFile(row)
 
 for i in range(0, len(config.stations)):
     station_id = config.stations[i]["station_id"]
@@ -89,9 +97,8 @@ for i in range(0, len(config.stations)):
 
         #Checking if metrics are valid
         if not is_valid_data(relH):
-            with open(cwd + "/data/logfile.txt", "a") as lf:
-                lf.write(station_country + "_" + station_id + " not valid data" + '\n')
-            lf.close
+            row=station_country + "_" + station_id + " No Valid Data!" + '\n'
+            writeToLogFile(row)
             continue
 
 
@@ -118,9 +125,8 @@ for i in range(0, len(config.stations)):
         #if file is empty and there is no date_time entry this command will not be executed
         #and program will move to next weather station
         if len(date_time)>0 and station_time<=file_time:
-            with open(cwd + "/data/logfile.txt", "a") as lf:
-                lf.write(station_country + "_" + station_id + " " + lt + " " +date_time + '\n')
-            lf.close
+            row=station_country + "_" + station_id + " " + lt + " " +date_time + '\n'
+            writeToLogFile(row)
             continue
 
         # Calculation of vapor pressure at given temperature in [mbar]
@@ -170,8 +176,7 @@ for i in range(0, len(config.stations)):
         row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O, rho]
         writeToLog(row)
 
-        with open(cwd + "/data/logfile.txt", "a") as lf:
-            lf.write(station_country + "_" + station_id + " successful retrieval" + '\n')
-        lf.close
+        row=station_country + "_" + station_id + " Successful Retrieval!"" + '\n'
+        writeToLogFile(row)
     else:
         print "No response returned"
