@@ -52,6 +52,10 @@ def is_valid_data(relH):
 # Do this once, at start
 check_data_directory()
 
+with open(cwd + "/data/logfile.txt", "a") as lf:
+    lf.write('\n' + "New Retrieval Cycle:" + '\n')
+lf.close
+
 for i in range(0, len(config.stations)):
     station_id = config.stations[i]["station_id"]
     station_country = config.stations[i]["country_short"]
@@ -77,7 +81,7 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
-        print obsL, obsL.find(' ')
+#        print obsL, obsL.find(' ')
 
         #make obsL a string without a blank character
         if obsL.find(' ')!=-1:
@@ -85,6 +89,9 @@ for i in range(0, len(config.stations)):
 
         #Checking if metrics are valid
         if not is_valid_data(relH):
+            with open(cwd + "/data/logfile.txt", "a") as lf:
+                lf.write(station_country + "_" + station_id + " not valid data" + '\n')
+            lf.close
             continue
 
 
@@ -106,9 +113,14 @@ for i in range(0, len(config.stations)):
         file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
         station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
+#        print obsL, station_time, file_time
+
         #if file is empty and there is no date_time entry this command will not be executed
         #and program will move to next weather station
         if len(date_time)>0 and station_time<=file_time:
+            with open(cwd + "/data/logfile.txt", "a") as lf:
+                lf.write(station_country + "_" + station_id + " " + lt + " " +date_time + '\n')
+            lf.close
             continue
 
         # Calculation of vapor pressure at given temperature in [mbar]
@@ -158,5 +170,8 @@ for i in range(0, len(config.stations)):
         row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O, rho]
         writeToLog(row)
 
+        with open(cwd + "/data/logfile.txt", "a") as lf:
+            lf.write(station_country + "_" + station_id + " successful retrieval" + '\n')
+        lf.close
     else:
         print "No response returned"
