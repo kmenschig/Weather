@@ -23,8 +23,8 @@ def writeToLogFile(row):
     @param row {list} - the row to be written
     @param station_id {string} - the private weather station id
     """
-    with open(cwd + "/data/logfile.txt", 'w') as logOutfile:
-        logOutfile.write('\t'.join(row) + '\n')
+    with open(cwd + "/data/logfile.txt", 'a') as logOutfile:
+        logOutfile.write(row + '\n')
 
 def date_to_ISO(date):
     """
@@ -61,7 +61,7 @@ def is_valid_data(relH):
 # Do this once, at start
 check_data_directory()
 
-row="New Retrieval Cycle:" + '\n'
+row="New Retrieval Cycle:"
 writeToLogFile(row)
 
 for i in range(0, len(config.stations)):
@@ -97,7 +97,7 @@ for i in range(0, len(config.stations)):
 
         #Checking if metrics are valid
         if not is_valid_data(relH):
-            row=station_country + "_" + station_id + " No Valid Data!" + '\n'
+            row=station_country + "_" + station_id + " No Valid Data!"
             writeToLogFile(row)
             continue
 
@@ -125,7 +125,7 @@ for i in range(0, len(config.stations)):
         #if file is empty and there is no date_time entry this command will not be executed
         #and program will move to next weather station
         if len(date_time)>0 and station_time<=file_time:
-            row=station_country + "_" + station_id + " " + lt + " " +date_time + '\n'
+            row=station_country + "_" + station_id + " " + lt + " " + date_time
             writeToLogFile(row)
             continue
 
@@ -176,7 +176,7 @@ for i in range(0, len(config.stations)):
         row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O, rho]
         writeToLog(row)
 
-        row=station_country + "_" + station_id + " Successful Retrieval!"" + '\n'
+        row=station_country + "_" + station_id + " Successful Retrieval!"
         writeToLogFile(row)
     else:
         print "No response returned"
