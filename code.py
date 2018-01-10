@@ -76,10 +76,13 @@ for i in range(0, len(config.stations)):
     r = requests.get(BASE_URL)
 
     if r.status_code == 200:
+        row=station_country + "_" + station_id + " No Response from Weather Station!"
+        writeToLogFile(row)
+        continue
 
         data = r.json()
         response = data["current_observation"]
-
+    
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
         relH = str(response["relative_humidity"])
