@@ -1,5 +1,6 @@
 #!/home/klaus/Documents/Projects/Weather/env/bin/ python
 import os
+import time
 import datetime
 import requests
 import argparse
@@ -61,7 +62,7 @@ def is_valid_data(relH):
 # Do this once, at start
 check_data_directory()
 
-row="New Retrieval Cycle:"
+row=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
 writeToLogFile(row)
 
 for i in range(0, len(config.stations)):
@@ -82,7 +83,7 @@ for i in range(0, len(config.stations)):
 
         data = r.json()
         response = data["current_observation"]
-    
+
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
         relH = str(response["relative_humidity"])
