@@ -72,10 +72,13 @@ for i in range(0, len(config.stations)):
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-#    print "GET Request: " + BASE_URL
+    print(BASE_URL)
+
+    # print "GET Request: " + BASE_URL
 
     r = requests.get(BASE_URL)
-
+    # TODO: @mmenschig
+    # Also check if API response contains key 'error'
     if r.status_code == 200:
         row=station_country + "_" + station_id + " No Response from Weather Station!"
         writeToLogFile(row)
@@ -93,13 +96,13 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
-#        print obsL, obsL.find(' ')
+        # print obsL, obsL.find(' ')
 
-        #make obsL a string without a blank character
+        # make obsL a string without a blank character
         if obsL.find(' ')!=-1:
             obsL=obsL.replace(' ','_')
 
-        #Checking if metrics are valid
+        # Checking if metrics are valid
         if not is_valid_data(relH):
             row=station_country + "_" + station_id + " No Valid Data!"
             writeToLogFile(row)
@@ -124,10 +127,10 @@ for i in range(0, len(config.stations)):
         file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
         station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
-#        print obsL, station_time, file_time
+        # print obsL, station_time, file_time
 
-        #if file is empty and there is no date_time entry this command will not be executed
-        #and program will move to next weather station
+        # if file is empty and there is no date_time entry this command will not be executed
+        # and program will move to next weather station
         if len(date_time)>0 and station_time<=file_time:
             row=station_country + "_" + station_id + " " + lt + " " + date_time
             writeToLogFile(row)
