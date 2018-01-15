@@ -1,0 +1,8 @@
+2018-01-14 16:22:15 [DEBUG] Starting new HTTPS connection (1): api.wunderground.com
+2018-01-14 16:22:15 [DEBUG] https://api.wunderground.com:443 "GET /api/403665e38bc0904f/conditions/q/br/pws:ISTATEOF5.json HTTP/1.1" 200 1083
+2018-01-14 16:22:15 [DEBUG] Starting new HTTPS connection (1): api.wunderground.com
+2018-01-14 16:22:15 [DEBUG] https://api.wunderground.com:443 "GET /api/403665e38bc0904f/conditions/q/co/pws:IMANIZAL5.json HTTP/1.1" 200 1026
+2018-01-14 16:26:29 [DEBUG] Starting new HTTPS connection (1): api.wunderground.com
+2018-01-14 16:26:30 [DEBUG] https://api.wunderground.com:443 "GET /api/403665e38bc0904f/conditions/q/br/pws:ISTATEOF5.json HTTP/1.1" 200 1084
+2018-01-14 16:26:30 [DEBUG] Starting new HTTPS connection (1): api.wunderground.com
+2018-01-14 16:26:30 [DEBUG] https://api.wunderground.com:443 "GET /api/403665e38bc0904f/conditions/q/co/pws:IMANIZAL5.json HTTP/1.1" 200 1028

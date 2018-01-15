@@ -1,13 +1,15 @@
 #!/home/klaus/Documents/Projects/Weather/env/bin/ python
 import os
+import sys
 import time
 import datetime
 import requests
 import argparse
 import config
+import logging
 from config import cwd
 from dateutil import parser
-
+from app.stations import stations
 
 def writeToLog(row):
     """
@@ -36,18 +38,13 @@ def date_to_ISO(date):
     """
     return parser.parse(date).replace(tzinfo=None)
 
-def check_data_directory():
-    """
-    Checks if the 'data' directory exists
-    which is used to store collected data in
-    log files.
-    No parameters
-    """
-    if not os.path.isdir(cwd + '/data'):
+def check_data_directory(directory):
+    if not os.path.isdir(cwd + '/' + directory):
+        try:
+            os.mkdir(cwd + '/' + directory)
+        except:
+            print("Could not create directory '{0}'".format(directory))
 
-        print "Data directory does not exist. Creating one.."
-        os.mkdir(cwd + '/data')
-        print "Created directory!"
 
 def is_valid_data(relH):
     """
@@ -58,25 +55,39 @@ def is_valid_data(relH):
     """
     return not relH == "-999%"
 
+def logging_setup():
+    pass
+
+check_data_directory("logs")
+
+# Setting up proper logging
+logging.basicConfig(filename='./logs/log.log', 
+                    format='%(asctime)s [%(levelname)s] %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    level=logging.DEBUG
+                    )
+
+if not config.API_KEY:
+    logging.error("API_KEY environment variable does not exist. Please create one. Exiting..")
+    sys.exit(0)
+
 
 # Do this once, at start
-check_data_directory()
+check_data_directory("data")
 
 row=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
 writeToLogFile(row)
 
-for i in range(0, len(config.stations)):
-    station_id = config.stations[i]["station_id"]
-    station_country = config.stations[i]["country_short"]
+for i in range(0, len(stations)):
+    station_id = stations[i]["station_id"]
+    station_country = stations[i]["country_short"]
 
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-    print(BASE_URL)
-
-    # print "GET Request: " + BASE_URL
-
     r = requests.get(BASE_URL)
+
+    print(r.json())
     # TODO: @mmenschig
     # Also check if API response contains key 'error'
     if r.status_code == 200:
@@ -166,24 +177,24 @@ for i in range(0, len(config.stations)):
         #according to ideal gas law: pV=nRT
 
         #calculation of total moles in 1 cu.m at the reported conditions
-        ntotal=float(prsI)*3386.3752577878*1/8.314/(273.15+float(tmpC))
-        xH2O=float(vapdwp)*100/(float(prsI)*3386.3752577878)
+        ntotal = float(prsI) * 3386.3752577878 * 1 / 8.314 / (273.15 + float(tmpC))
+        xH2O = float(vapdwp) * 100 / (float(prsI) * 3386.3752577878)
         #number of moles of water in 1 cu.m air
-        nH2O=xH2O*ntotal
+        nH2O = xH2O * ntotal
         #mass of water in grams in 1 cu.m air
-        mH2O=nH2O*18
-        mH2O="{:2.2f}".format(mH2O)
-        mH2O=str(mH2O)
+        mH2O = nH2O * 18
+        mH2O = "{:2.2f}".format(mH2O)
+        mH2O = str(mH2O)
 
         #calculation of the respective air density`
-        rho=((float(prsI)*3386.3752577878-float(vapdwp)*100)*0.028964+float(vapdwp)*100*0.018016)/8.314/(273.15+float(tmpC))
-        rho="{:1.3f}".format(rho)
-        rho=str(rho)
+        rho = ((float(prsI) * 3386.3752577878 - float(vapdwp) * 100) * 0.028964 + float(vapdwp) * 100 * 0.018016) / 8.314 / (273.15 + float(tmpC))
+        rho = "{:1.3f}".format(rho)
+        rho = str(rho)
 
         row = [station_country, obsL, lt, dewF, dewC, relH, prsI, tmpF, tmpC, vapprs, vapdwp, mH2O, rho]
         writeToLog(row)
 
-        row=station_country + "_" + station_id + " Successful Retrieval!"
+        row = station_country + "_" + station_id + " Successful Retrieval!"
         writeToLogFile(row)
     else:
         print "No response returned"

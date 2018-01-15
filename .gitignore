@@ -12,3 +12,6 @@
 
 # Collected data
 /data
+
+# temp file
+temporary_file.txt
