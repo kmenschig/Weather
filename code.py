@@ -62,7 +62,7 @@ def is_valid_data(relH):
 # Do this once, at start
 check_data_directory()
 
-row=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
+row='\n' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
 writeToLogFile(row)
 
 for i in range(0, len(config.stations)):
@@ -77,9 +77,9 @@ for i in range(0, len(config.stations)):
     r = requests.get(BASE_URL)
 
     if r.status_code == 200:
-        row=station_country + "_" + station_id + " No Response from Weather Station!"
-        writeToLogFile(row)
-        continue
+    #    row=station_country + "_" + station_id + " No Response from Weather Station!"
+    #    writeToLogFile(row)
+    #    continue
 
         data = r.json()
         response = data["current_observation"]
@@ -93,22 +93,22 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
-#        print obsL, obsL.find(' ')
+       # print obsL, obsL.find(' ')
 
-        #make obsL a string without a blank character
+        # make obsL a string without a blank character
         if obsL.find(' ')!=-1:
             obsL=obsL.replace(' ','_')
 
-        #Checking if metrics are valid
+        # Checking if metrics are valid
         if not is_valid_data(relH):
             row=station_country + "_" + station_id + " No Valid Data!"
             writeToLogFile(row)
             continue
 
 
-        #block to check whether the weather station has not updated it's information since last Request
-        #new observation_time_rfc822 will be compared with the time in the last line of the respective file
-        #if times are the same, the program will move to the next weather station
+        # block to check whether the weather station has not updated it's information since last Request
+        # new observation_time_rfc822 will be compared with the time in the last line of the respective file
+        # if times are the same, the program will move to the next weather station
 
         os.system("tail -n 1 " + cwd + "/data/" + station_country + "_" + station_id + ".txt > temporary_file.txt")
 
@@ -116,6 +116,7 @@ for i in range(0, len(config.stations)):
 
         for last_line in file_handle:
             date_time=last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
+        #    date_time=last_line.strip("\t")[2]
 
         file_handle.close
 
@@ -124,10 +125,10 @@ for i in range(0, len(config.stations)):
         file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
         station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
-#        print obsL, station_time, file_time
+        # print obsL, station_time, file_time
 
-        #if file is empty and there is no date_time entry this command will not be executed
-        #and program will move to next weather station
+        # if file is empty and there is no date_time entry this command will not be executed
+        # and program will move to next weather station
         if len(date_time)>0 and station_time<=file_time:
             row=station_country + "_" + station_id + " " + lt + " " + date_time
             writeToLogFile(row)
@@ -159,20 +160,20 @@ for i in range(0, len(config.stations)):
         # relH='{:>4}'.format(relH)
 
 
-        #calculation of grams water in 1 cu.m of air
-        #according to ideal gas law: pV=nRT
+        # calculation of grams water in 1 cu.m of air
+        # according to ideal gas law: pV=nRT
 
-        #calculation of total moles in 1 cu.m at the reported conditions
-        ntotal=float(prsI)*3386.3752577878*1/8.314/(273.15+float(tmpC))
-        xH2O=float(vapdwp)*100/(float(prsI)*3386.3752577878)
-        #number of moles of water in 1 cu.m air
+        # calculation of total moles in 1 cu.m at the reported conditions
+        ntotal = float(prsI) * 3386.3752577878 * 1 / 8.314 / (273.15 + float(tmpC))
+        xH2O = float(vapdwp) * 100 / (float(prsI) * 3386.3752577878)
+        # number of moles of water in 1 cu.m air
         nH2O=xH2O*ntotal
-        #mass of water in grams in 1 cu.m air
+        # mass of water in grams in 1 cu.m air
         mH2O=nH2O*18
         mH2O="{:2.2f}".format(mH2O)
         mH2O=str(mH2O)
 
-        #calculation of the respective air density`
+        # calculation of the respective air density`
         rho=((float(prsI)*3386.3752577878-float(vapdwp)*100)*0.028964+float(vapdwp)*100*0.018016)/8.314/(273.15+float(tmpC))
         rho="{:1.3f}".format(rho)
         rho=str(rho)
