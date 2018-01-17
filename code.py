@@ -72,20 +72,18 @@ for i in range(0, len(config.stations)):
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-    print(BASE_URL)
-
-    # print "GET Request: " + BASE_URL
-
     r = requests.get(BASE_URL)
-    # TODO: @mmenschig
-    # Also check if API response contains key 'error'
-    if r.status_code == 200:
+
+    res = r.json()
+    print(res);
+
+    # TODO: horrible to maintain. Must be refactored and split into functions
+    if r.status_code != 200 or "error" in res["response"]:
         row=station_country + "_" + station_id + " No Response from Weather Station!"
         writeToLogFile(row)
         continue
-
-        data = r.json()
-        response = data["current_observation"]
+    else:
+        response = res["current_observation"]
 
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
@@ -185,5 +183,3 @@ for i in range(0, len(config.stations)):
 
         row=station_country + "_" + station_id + " Successful Retrieval!"
         writeToLogFile(row)
-    else:
-        print "No response returned"
