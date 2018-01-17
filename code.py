@@ -72,10 +72,13 @@ for i in range(0, len(config.stations)):
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-#    print "GET Request: " + BASE_URL
+    print(BASE_URL)
+
+    # print "GET Request: " + BASE_URL
 
     r = requests.get(BASE_URL)
-
+    # TODO: @mmenschig
+    # Also check if API response contains key 'error'
     if r.status_code == 200:
     #    row=station_country + "_" + station_id + " No Response from Weather Station!"
     #    writeToLogFile(row)
@@ -93,7 +96,11 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
+<<<<<<< HEAD
        # print obsL, obsL.find(' ')
+=======
+        # print obsL, obsL.find(' ')
+>>>>>>> 89a36add98e2b861d575f87e53e55a51b27759dc
 
         # make obsL a string without a blank character
         if obsL.find(' ')!=-1:
