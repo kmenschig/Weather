@@ -75,7 +75,6 @@ for i in range(0, len(config.stations)):
     r = requests.get(BASE_URL)
 
     res = r.json()
-    print(res);
 
     # TODO: horrible to maintain. Must be refactored and split into functions
     if r.status_code != 200 or "error" in res["response"]:
@@ -122,15 +121,18 @@ for i in range(0, len(config.stations)):
 
         os.system("rm -f temporary_file.txt")
 
-        file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
-        station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
+        try:
+            file_time = datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+        except NameError as e:
+            writeToLogFile("No file exists yet for stations '{0}'".format(station_id))
+            file_time = False
 
-        # print obsL, station_time, file_time
+        station_time = datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
         # if file is empty and there is no date_time entry this command will not be executed
         # and program will move to next weather station
-        if len(date_time)>0 and station_time<=file_time:
-            row=station_country + "_" + station_id + " " + lt + " " + date_time
+        if file_time and station_time <= file_time:
+            row = station_country + "_" + station_id + " " + lt + " " + date_time
             writeToLogFile(row)
             continue
 
