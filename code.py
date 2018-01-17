@@ -49,14 +49,14 @@ def check_data_directory():
         os.mkdir(cwd + '/data')
         print "Created directory!"
 
-def is_valid_data(relH):
+def is_valid_data(dewF,relH):
     """
     Checks if data returned from API is valid by doing
     a very naive check to see if dewpoint temperature
     is not equal to -9999.
     @param {relH} the response object from Wunderground
     """
-    return not relH == "-999%"
+    return not relH == "-999%" or dewF == "-9999.0"
 
 
 # Do this once, at start
@@ -100,7 +100,7 @@ for i in range(0, len(config.stations)):
             obsL=obsL.replace(' ','_')
 
         # Checking if metrics are valid
-        if not is_valid_data(relH):
+        if not is_valid_data(dewF,relH):
             row=station_country + "_" + station_id + " No Valid Data!"
             writeToLogFile(row)
             continue
