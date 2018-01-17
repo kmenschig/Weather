@@ -72,20 +72,17 @@ for i in range(0, len(config.stations)):
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-    print(BASE_URL)
-
-    # print "GET Request: " + BASE_URL
-
     r = requests.get(BASE_URL)
-    # TODO: @mmenschig
-    # Also check if API response contains key 'error'
-    if r.status_code == 200:
-    #    row=station_country + "_" + station_id + " No Response from Weather Station!"
-    #    writeToLogFile(row)
-    #    continue
 
-        data = r.json()
-        response = data["current_observation"]
+    res = r.json()
+
+    # TODO: horrible to maintain. Must be refactored and split into functions
+    if r.status_code != 200 or "error" in res["response"]:
+        row=station_country + "_" + station_id + " No Response from Weather Station!"
+        writeToLogFile(row)
+        continue
+    else:
+        response = res["current_observation"]
 
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
@@ -96,11 +93,7 @@ for i in range(0, len(config.stations)):
         obsL = str(response["display_location"]["city"])
         lt = str(date_to_ISO(response["observation_time_rfc822"]))
 
-<<<<<<< HEAD
-       # print obsL, obsL.find(' ')
-=======
         # print obsL, obsL.find(' ')
->>>>>>> 89a36add98e2b861d575f87e53e55a51b27759dc
 
         # make obsL a string without a blank character
         if obsL.find(' ')!=-1:
@@ -129,15 +122,18 @@ for i in range(0, len(config.stations)):
 
         os.system("rm -f temporary_file.txt")
 
-        file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
-        station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
+        try:
+            file_time = datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+        except NameError as e:
+            writeToLogFile("No file exists yet for stations '{0}'".format(station_id))
+            file_time = False
 
-        # print obsL, station_time, file_time
+        station_time = datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
         # if file is empty and there is no date_time entry this command will not be executed
         # and program will move to next weather station
-        if len(date_time)>0 and station_time<=file_time:
-            row=station_country + "_" + station_id + " " + lt + " " + date_time
+        if file_time and station_time <= file_time:
+            row = station_country + "_" + station_id + " " + lt + " " + date_time
             writeToLogFile(row)
             continue
 
@@ -190,5 +186,3 @@ for i in range(0, len(config.stations)):
 
         row=station_country + "_" + station_id + " Successful Retrieval!"
         writeToLogFile(row)
-    else:
-        print "No response returned"
