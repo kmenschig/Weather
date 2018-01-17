@@ -56,6 +56,7 @@ def is_valid_data(dewF,relH):
     is not equal to -9999.
     @param {relH} the response object from Wunderground
     """
+    # print dewF, relH
     return not relH == "-999%" or dewF == "-9999.0"
 
 
