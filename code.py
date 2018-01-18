@@ -49,21 +49,21 @@ def check_data_directory():
         os.mkdir(cwd + '/data')
         print "Created directory!"
 
-def is_valid_data(relH):
+def is_valid_data(dewF,relH):
     """
     Checks if data returned from API is valid by doing
     a very naive check to see if dewpoint temperature
     is not equal to -9999.
     @param {relH} the response object from Wunderground
     """
-    return not relH == "-999%"
+    return not relH == "-999%" or dewF == "-9999.0"
 
 
 # Do this once, at start
 check_data_directory()
 
 row=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
-writeToLogFile(row)
+writeToLogFile('\n' + row)
 
 for i in range(0, len(config.stations)):
     station_id = config.stations[i]["station_id"]
@@ -80,9 +80,9 @@ for i in range(0, len(config.stations)):
     # TODO: @mmenschig
     # Also check if API response contains key 'error'
     if r.status_code == 200:
-        row=station_country + "_" + station_id + " No Response from Weather Station!"
-        writeToLogFile(row)
-        continue
+    #    row=station_country + "_" + station_id + " No Response from Weather Station!"
+    #    writeToLogFile(row)
+    #    continue
 
         data = r.json()
         response = data["current_observation"]
@@ -103,15 +103,15 @@ for i in range(0, len(config.stations)):
             obsL=obsL.replace(' ','_')
 
         # Checking if metrics are valid
-        if not is_valid_data(relH):
+        if not is_valid_data(dewF,relH):
             row=station_country + "_" + station_id + " No Valid Data!"
             writeToLogFile(row)
             continue
 
 
-        #block to check whether the weather station has not updated it's information since last Request
-        #new observation_time_rfc822 will be compared with the time in the last line of the respective file
-        #if times are the same, the program will move to the next weather station
+        # block to check whether the weather station has not updated it's information since last Request
+        # new observation_time_rfc822 will be compared with the time in the last line of the respective file
+        # if times are the same, the program will move to the next weather station
 
         os.system("tail -n 1 " + cwd + "/data/" + station_country + "_" + station_id + ".txt > temporary_file.txt")
 
@@ -162,20 +162,20 @@ for i in range(0, len(config.stations)):
         # relH='{:>4}'.format(relH)
 
 
-        #calculation of grams water in 1 cu.m of air
-        #according to ideal gas law: pV=nRT
+        # calculation of grams water in 1 cu.m of air
+        # according to ideal gas law: pV=nRT
 
-        #calculation of total moles in 1 cu.m at the reported conditions
+        # calculation of total moles in 1 cu.m at the reported conditions
         ntotal=float(prsI)*3386.3752577878*1/8.314/(273.15+float(tmpC))
         xH2O=float(vapdwp)*100/(float(prsI)*3386.3752577878)
-        #number of moles of water in 1 cu.m air
+        # number of moles of water in 1 cu.m air
         nH2O=xH2O*ntotal
-        #mass of water in grams in 1 cu.m air
+        # mass of water in grams in 1 cu.m air
         mH2O=nH2O*18
         mH2O="{:2.2f}".format(mH2O)
         mH2O=str(mH2O)
 
-        #calculation of the respective air density`
+        # calculation of the respective air density`
         rho=((float(prsI)*3386.3752577878-float(vapdwp)*100)*0.028964+float(vapdwp)*100*0.018016)/8.314/(273.15+float(tmpC))
         rho="{:1.3f}".format(rho)
         rho=str(rho)
