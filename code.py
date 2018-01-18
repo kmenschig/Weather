@@ -56,14 +56,15 @@ def is_valid_data(dewF,relH):
     is not equal to -9999.
     @param {relH} the response object from Wunderground
     """
+    # print dewF, relH
     return not relH == "-999%" or dewF == "-9999.0"
 
 
 # Do this once, at start
 check_data_directory()
 
-row=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
-writeToLogFile('\n' + row)
+row='\n' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())) + " New Retrieval Cycle:"
+writeToLogFile(row)
 
 for i in range(0, len(config.stations)):
     station_id = config.stations[i]["station_id"]
@@ -72,20 +73,17 @@ for i in range(0, len(config.stations)):
     BASE_URL='https://api.wunderground.com/api/{0}/conditions/q/{1}/pws:{2}.json' \
         .format(config.API_KEY, station_country, station_id)
 
-    print(BASE_URL)
-
-    # print "GET Request: " + BASE_URL
-
     r = requests.get(BASE_URL)
-    # TODO: @mmenschig
-    # Also check if API response contains key 'error'
-    if r.status_code == 200:
-    #    row=station_country + "_" + station_id + " No Response from Weather Station!"
-    #    writeToLogFile(row)
-    #    continue
 
-        data = r.json()
-        response = data["current_observation"]
+    res = r.json()
+
+    # TODO: horrible to maintain. Must be refactored and split into functions
+    if r.status_code != 200 or "error" in res["response"]:
+        row=station_country + "_" + station_id + " No Response from Weather Station!"
+        writeToLogFile(row)
+        continue
+    else:
+        response = res["current_observation"]
 
         dewF = str(response["dewpoint_f"])
         dewC = str(response["dewpoint_c"])
@@ -119,20 +117,24 @@ for i in range(0, len(config.stations)):
 
         for last_line in file_handle:
             date_time=last_line[3+len(obsL)+1:3+len(obsL)+1+len(lt)]
+        #    date_time=last_line.strip("\t")[2]
 
         file_handle.close
 
         os.system("rm -f temporary_file.txt")
 
-        file_time=datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
-        station_time=datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
+        try:
+            file_time = datetime.datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+        except NameError as e:
+            writeToLogFile("No file exists yet for stations '{0}'".format(station_id))
+            file_time = False
 
-        # print obsL, station_time, file_time
+        station_time = datetime.datetime.strptime(lt, '%Y-%m-%d %H:%M:%S')
 
         # if file is empty and there is no date_time entry this command will not be executed
         # and program will move to next weather station
-        if len(date_time)>0 and station_time<=file_time:
-            row=station_country + "_" + station_id + " " + lt + " " + date_time
+        if file_time and station_time <= file_time:
+            row = station_country + "_" + station_id + " " + lt + " " + date_time
             writeToLogFile(row)
             continue
 
@@ -166,8 +168,8 @@ for i in range(0, len(config.stations)):
         # according to ideal gas law: pV=nRT
 
         # calculation of total moles in 1 cu.m at the reported conditions
-        ntotal=float(prsI)*3386.3752577878*1/8.314/(273.15+float(tmpC))
-        xH2O=float(vapdwp)*100/(float(prsI)*3386.3752577878)
+        ntotal = float(prsI) * 3386.3752577878 * 1 / 8.314 / (273.15 + float(tmpC))
+        xH2O = float(vapdwp) * 100 / (float(prsI) * 3386.3752577878)
         # number of moles of water in 1 cu.m air
         nH2O=xH2O*ntotal
         # mass of water in grams in 1 cu.m air
@@ -185,5 +187,3 @@ for i in range(0, len(config.stations)):
 
         row=station_country + "_" + station_id + " Successful Retrieval!"
         writeToLogFile(row)
-    else:
-        print "No response returned"
