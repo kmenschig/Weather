@@ -53,11 +53,11 @@ def is_valid_data(dewF,relH):
     """
     Checks if data returned from API is valid by doing
     a very naive check to see if dewpoint temperature
-    is not equal to -9999.
-    @param {relH} the response object from Wunderground
+    is not equal to -9999 or relative humidity is not equal to -999%.
+    @param {dewF,relH} the response object from Wunderground
     """
     # print dewF, relH
-    return not relH == "-999%" or dewF == "-9999.0"
+    return not (relH == "-999%" or dewF == "-9999.0")
 
 
 # Do this once, at start
