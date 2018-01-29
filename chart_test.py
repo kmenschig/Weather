@@ -7,7 +7,7 @@ fieldnames=['country','daytime','tmpF','tmpC','rH','P','dwpF','dwpC','vapprs','v
 #datafield = np.genfromtxt('mx_IESTADOD2.txt',names=fieldnames,dtype=np.str,delimiter='\t',unpack=True)
 #x,y = np.genfromtxt('ph_ICALABAR26.txt',names=fieldnames,usecols=('daytime' ,'mH2O'),dtype=np.str,delimiter='\t',unpack=True)
 #x,y = np.genfromtxt('ph_ICALABAR26.txt',usecols=(2 ,11),dtype=np.str,delimiter='\t',unpack=True)
-x,y = np.genfromtxt('ph_ICALABAR26.txt',usecols=(2 ,11),dtype=np.str,delimiter='\t',unpack=True)
+x,y = np.genfromtxt('data/ph_ICALABAR26.txt',usecols=(2 ,11),dtype=np.str,delimiter='\t',unpack=True)
 #a=np.datetime64(x)
 x=pd.to_datetime(x)
 
@@ -20,12 +20,14 @@ ax = plt.axes()
 
 #ax.yaxis.set_major_locator(plt.NullLocator())
 #ax.xaxis.set_major_formatter(plt.NullFormatter())
-ax.xaxis.set_major_locator(plt.MaxNLocator(2))
-
+#ax.xaxis.set_major_locator(plt.MaxNLocator(4))
+#ax.yaxis.set_major_locator(plt.MaxNLocator(4))
+#ticks = ax.set_xticks([1,2,3,4])
+#labels = ax.set_xticklabels(['one','two','three','four'], rotation=30, fontsize='small')
 
 plt.title('mH2O in Air in Mexico')
 plt.xlabel('time')
-plt.ylabel('mH2O')
+plt.ylabel('mH2O [g/cu.m]')
 #plt.axis(['13:00:00','22:00:00',0,25])
 plt.plot(x, y, 'ro')
 plt.show()  # You must call plt.show() to make graphics appear.
