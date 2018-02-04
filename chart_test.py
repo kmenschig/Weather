@@ -17,17 +17,24 @@ x=pd.to_datetime(x)
 #testdate2 = datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
 # Plot the points using matplotlib
 ax = plt.axes()
-
+#ax.set_yscale('linear')
+#ax.set_ylim([20,30])
+#major_yticks=np.arange(0,31,10)
+#minor_yticks=np.arange(0,31,5)
+#ax.set_ylim(0,21)
 #ax.yaxis.set_major_locator(plt.NullLocator())
 #ax.xaxis.set_major_formatter(plt.NullFormatter())
 #ax.xaxis.set_major_locator(plt.MaxNLocator(4))
 #ax.yaxis.set_major_locator(plt.MaxNLocator(4))
-#ticks = ax.set_xticks([1,2,3,4])
-#labels = ax.set_xticklabels(['one','two','three','four'], rotation=30, fontsize='small')
+#ticks = ax.set_yticks([0,5,10,15,20,25])
+#labels = ax.set_xticklabels(rotation=30, fontsize='small')
 
 plt.title('mH2O in Air in Mexico')
 plt.xlabel('time')
 plt.ylabel('mH2O [g/cu.m]')
+plt.autoscale(False)
+plt.ylim(0,30)
+
 #plt.axis(['13:00:00','22:00:00',0,25])
 plt.plot(x, y, 'ro')
 plt.show()  # You must call plt.show() to make graphics appear.
