@@ -5,7 +5,7 @@
 *.DS_Store
 
 # Ignores all text files
-*.txt
+# *.txt
 
 # All python compiled files
 *.pyc

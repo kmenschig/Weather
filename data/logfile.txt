@@ -1,0 +1,118 @@
+2018-02-04 07:00:02 New Retrieval Cycle:
+br_ISTATEOF5 Successful Retrieval!
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 No Response from Weather Station!
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 Successful Retrieval!
+
+2018-02-04 08:00:02 New Retrieval Cycle:
+
+2018-02-04 09:00:03 New Retrieval Cycle:
+br_ISTATEOF5 2018-02-04 10:14:08 2018-02-04 10:14:08
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 Successful Retrieval!
+
+2018-02-04 10:00:01 New Retrieval Cycle:
+br_ISTATEOF5 2018-02-04 10:14:08 2018-02-04 10:14:08
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 Successful Retrieval!
+
+2018-02-04 11:00:01 New Retrieval Cycle:
+br_ISTATEOF5 2018-02-04 10:14:08 2018-02-04 10:14:08
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 Successful Retrieval!
+
+2018-02-04 12:00:02 New Retrieval Cycle:
+br_ISTATEOF5 2018-02-04 10:14:08 2018-02-04 10:14:08
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+
+2018-02-04 13:00:01 New Retrieval Cycle:
+br_ISTATEOF5 Successful Retrieval!
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 Successful Retrieval!
+
+2018-02-04 14:00:01 New Retrieval Cycle:
+br_ISTATEOF5 Successful Retrieval!
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 No Valid Data!
+
+2018-02-04 15:00:02 New Retrieval Cycle:
+br_ISTATEOF5 Successful Retrieval!
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 No Valid Data!
+
+2018-02-04 16:00:03 New Retrieval Cycle:
+br_ISTATEOF5 Successful Retrieval!
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 No Valid Data!
+
+2018-02-04 17:00:01 New Retrieval Cycle:
+br_ISTATEOF5 Successful Retrieval!
+co_IMANIZAL5 2018-01-19 15:04:44 2018-01-19 15:04:44
+dl_IKNBERZD2 Successful Retrieval!
+dl_IKNMESCH2 Successful Retrieval!
+dl_ICOLOGNE184 Successful Retrieval!
+gb_IDUKINFI2 2018-02-02 09:32:11 2018-02-02 09:32:11
+mx_ITULTITL2 Successful Retrieval!
+mx_IESTADOD2 Successful Retrieval!
+mx_ICIUDADD170 Successful Retrieval!
+ph_ICALABAR26 No Valid Data!
