@@ -11,4 +11,4 @@
 *.pyc
 
 # Collected data
-/data
+#/data
