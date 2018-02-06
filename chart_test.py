@@ -4,19 +4,24 @@ import matplotlib.pyplot as plt
 import datetime
 from dateutil import parser
 
+def excel_date(date1):
+    temp = dt.datetime(1899, 12, 30)    # Note, not 31st Dec but 30th!
+    delta = date1 - temp
+    return float(delta.days) + (float(delta.seconds) / 86400)
+
 fieldnames=['country','daytime','tmpF','tmpC','rH','P','dwpF','dwpC','vapprs','vapdwp','mH2O','rho']
 #datafield = np.genfromtxt('mx_IESTADOD2.txt',names=fieldnames,dtype=np.str,delimiter='\t',unpack=True)
 #x,y = np.genfromtxt('ph_ICALABAR26.txt',names=fieldnames,usecols=('daytime' ,'mH2O'),dtype=np.str,delimiter='\t',unpack=True)
 #x,y = np.genfromtxt('ph_ICALABAR26.txt',usecols=(2 ,11),dtype=np.str,delimiter='\t',unpack=True)
 x,y = np.genfromtxt('data/ph_ICALABAR26.txt',usecols=(2 ,11),dtype=np.str,delimiter='\t',unpack=True)
-df=pd.DataFrame({'date0':pd.date_range('1990-01-01 00:00:00', periods=3),
-                 'date1':pd.date_range('2000-01-01 00:00:00',periods=3, freq='23H')})
+df=pd.DataFrame({'date0':pd.date_range('1990-01-01 00:00:00', periods=1),
+                 'date1':pd.date_range('2000-01-01 00:00:00',periods=1, freq='24H')})
 df['diff'] = df['date1'] - df['date0']
 df['seconds'] = df['diff'].dt.total_seconds()
 print (df)
 #a=np.datetime64(x)
 #print (a)
-#x=pd.to_timedelta(x)
+#x=pd.to_timedel
 #x=parser.parse(x)
 #print (y)
 #print
