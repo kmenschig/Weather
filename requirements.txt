@@ -9,7 +9,7 @@ debtags==2.0
 defer==1.0.6
 dirspec==13.10
 duplicity==0.7.6
-ecdsa==0.13
+ecdsa==0.13.3
 enum34==1.1.2
 html5lib==0.999
 httplib2==0.9.1
